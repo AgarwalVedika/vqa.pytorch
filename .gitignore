@@ -13,6 +13,7 @@ logs/vqa2
 __pycache__/
 *.py[cod]
 *$py.class
+.idea/
 
 # Mac
 .DS_Store

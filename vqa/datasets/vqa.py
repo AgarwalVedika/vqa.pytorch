@@ -119,21 +119,21 @@ class VQA(AbstractVQA):
     def __init__(self, data_split, opt, dataset_img=None):
         super(VQA, self).__init__(data_split, opt, dataset_img)
 
-    def _raw(self):
-        dir_zip = os.path.join(self.dir_raw, 'zip')
-        dir_ann = os.path.join(self.dir_raw, 'annotations')
-        os.system('mkdir -p '+dir_zip)
-        os.system('mkdir -p '+dir_ann)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/Questions_Train_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/Questions_Val_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/Questions_Test_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/Annotations_Train_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/Annotations_Val_mscoco.zip -P '+dir_zip)
-        os.system('unzip '+os.path.join(dir_zip, 'Questions_Train_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'Questions_Val_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'Questions_Test_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'Annotations_Train_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'Annotations_Val_mscoco.zip')+' -d '+dir_ann)
+    #def _raw(self):
+        #dir_zip = os.path.join(self.dir_raw, 'zip')
+        #dir_ann = os.path.join(self.dir_raw, 'annotations')
+        #os.system('mkdir -p '+dir_zip)
+        # os.system('mkdir -p '+dir_ann)
+        # # os.system('wget http://visualqa.org/data/mscoco/vqa/Questions_Train_mscoco.zip -P '+dir_zip)          ### TODO comment out _vedika
+        # # os.system('wget http://visualqa.org/data/mscoco/vqa/Questions_Val_mscoco.zip -P '+dir_zip)
+        # # os.system('wget http://visualqa.org/data/mscoco/vqa/Questions_Test_mscoco.zip -P '+dir_zip)
+        # # os.system('wget http://visualqa.org/data/mscoco/vqa/Annotations_Train_mscoco.zip -P '+dir_zip)
+        # # os.system('wget http://visualqa.org/data/mscoco/vqa/Annotations_Val_mscoco.zip -P '+dir_zip)
+        # os.system('unzip '+os.path.join(dir_zip, 'Questions_Train_mscoco.zip')+' -d '+dir_ann)
+        # os.system('unzip '+os.path.join(dir_zip, 'Questions_Val_mscoco.zip')+' -d '+dir_ann)
+        # os.system('unzip '+os.path.join(dir_zip, 'Questions_Test_mscoco.zip')+' -d '+dir_ann)
+        # os.system('unzip '+os.path.join(dir_zip, 'Annotations_Train_mscoco.zip')+' -d '+dir_ann)
+        # os.system('unzip '+os.path.join(dir_zip, 'Annotations_Val_mscoco.zip')+' -d '+dir_ann)
 
     def _interim(self):
         vqa_interim(self.opt['dir'])
@@ -147,33 +147,33 @@ class VQA2(AbstractVQA):
     def __init__(self, data_split, opt, dataset_img=None):
         super(VQA2, self).__init__(data_split, opt, dataset_img)
 
-    def _raw(self):
-        dir_zip = os.path.join(self.dir_raw, 'zip')
-        dir_ann = os.path.join(self.dir_raw, 'annotations')
-        os.system('mkdir -p '+dir_zip)
-        os.system('mkdir -p '+dir_ann)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Questions_Train_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Questions_Val_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Questions_Test_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Annotations_Train_mscoco.zip -P '+dir_zip)
-        os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Annotations_Val_mscoco.zip -P '+dir_zip)
-        os.system('unzip '+os.path.join(dir_zip, 'v2_Questions_Train_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'v2_Questions_Val_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'v2_Questions_Test_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'v2_Annotations_Train_mscoco.zip')+' -d '+dir_ann)
-        os.system('unzip '+os.path.join(dir_zip, 'v2_Annotations_Val_mscoco.zip')+' -d '+dir_ann)
-        os.system('mv '+os.path.join(dir_ann, 'v2_mscoco_train2014_annotations.json')+' '
-                       +os.path.join(dir_ann, 'mscoco_train2014_annotations.json'))
-        os.system('mv '+os.path.join(dir_ann, 'v2_mscoco_val2014_annotations.json')+' '
-                       +os.path.join(dir_ann, 'mscoco_val2014_annotations.json'))
-        os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_train2014_questions.json')+' '
-                       +os.path.join(dir_ann, 'OpenEnded_mscoco_train2014_questions.json'))
-        os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_val2014_questions.json')+' '
-                       +os.path.join(dir_ann, 'OpenEnded_mscoco_val2014_questions.json'))
-        os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_test2015_questions.json')+' '
-                       +os.path.join(dir_ann, 'OpenEnded_mscoco_test2015_questions.json'))
-        os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_test-dev2015_questions.json')+' '
-                       +os.path.join(dir_ann, 'OpenEnded_mscoco_test-dev2015_questions.json'))
+    # def _raw(self):
+    #     dir_zip = os.path.join(self.dir_raw, 'zip')
+    #     dir_ann = os.path.join(self.dir_raw, 'annotations')
+    #     os.system('mkdir -p '+dir_zip)
+    #     os.system('mkdir -p '+dir_ann)
+    #     os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Questions_Train_mscoco.zip -P '+dir_zip)
+    #     os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Questions_Val_mscoco.zip -P '+dir_zip)
+    #     os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Questions_Test_mscoco.zip -P '+dir_zip)
+    #     os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Annotations_Train_mscoco.zip -P '+dir_zip)
+    #     os.system('wget http://visualqa.org/data/mscoco/vqa/v2_Annotations_Val_mscoco.zip -P '+dir_zip)
+    #     os.system('unzip '+os.path.join(dir_zip, 'v2_Questions_Train_mscoco.zip')+' -d '+dir_ann)
+    #     os.system('unzip '+os.path.join(dir_zip, 'v2_Questions_Val_mscoco.zip')+' -d '+dir_ann)
+    #     os.system('unzip '+os.path.join(dir_zip, 'v2_Questions_Test_mscoco.zip')+' -d '+dir_ann)
+    #     os.system('unzip '+os.path.join(dir_zip, 'v2_Annotations_Train_mscoco.zip')+' -d '+dir_ann)
+    #     os.system('unzip '+os.path.join(dir_zip, 'v2_Annotations_Val_mscoco.zip')+' -d '+dir_ann)
+    #     os.system('mv '+os.path.join(dir_ann, 'v2_mscoco_train2014_annotations.json')+' '
+    #                    +os.path.join(dir_ann, 'mscoco_train2014_annotations.json'))
+    #     os.system('mv '+os.path.join(dir_ann, 'v2_mscoco_val2014_annotations.json')+' '
+    #                    +os.path.join(dir_ann, 'mscoco_val2014_annotations.json'))
+    #     os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_train2014_questions.json')+' '
+    #                    +os.path.join(dir_ann, 'OpenEnded_mscoco_train2014_questions.json'))
+    #     os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_val2014_questions.json')+' '
+    #                    +os.path.join(dir_ann, 'OpenEnded_mscoco_val2014_questions.json'))
+    #     os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_test2015_questions.json')+' '
+    #                    +os.path.join(dir_ann, 'OpenEnded_mscoco_test2015_questions.json'))
+    #     os.system('mv '+os.path.join(dir_ann, 'v2_OpenEnded_mscoco_test-dev2015_questions.json')+' '
+    #                    +os.path.join(dir_ann, 'OpenEnded_mscoco_test-dev2015_questions.json'))
 
     def _interim(self):
         vqa2_interim(self.opt['dir'])

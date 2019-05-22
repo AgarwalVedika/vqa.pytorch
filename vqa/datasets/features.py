@@ -19,7 +19,7 @@ class FeaturesDataset(data.Dataset):
         assert os.path.isfile(self.path_hdf5), \
                'File not found in {}, you must extract the features first with extract.py'.format(self.path_hdf5)
         self.hdf5_file = h5py.File(self.path_hdf5, 'r')#, driver='mpio', comm=MPI.COMM_WORLD)
-        self.dataset_features = self.hdf5_file[self.opt['mode']]
+        self.dataset_features = self.hdf5_file  #[self.opt['mode']]   #TODO changes by vedika- alyws using with att now
         self.index_to_name, self.name_to_index = self._load_dicts()
 
     def _load_dicts(self):

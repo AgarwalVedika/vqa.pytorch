@@ -46,8 +46,8 @@ def main():
     args = parser.parse_args()
 
     print("=> using pre-trained model '{}'".format(args.arch))
-    model = convnets.factory({'arch':args.arch}, cuda=True, data_parallel=True)
-
+    model = convnets.factory({'arch':args.arch})  #, cuda=True)
+    #model.cuda()
     extract_name = 'arch,{}_size,{}'.format(args.arch, args.size)
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -58,7 +58,7 @@ def main():
             raise ValueError('"coco" string not in dir_data')
         dataset = datasets.COCOImages(args.data_split, dict(dir=args.dir_data),
             transform=transforms.Compose([
-                transforms.Scale(args.size),
+                transforms.Resize(args.size),  #Resize
                 transforms.CenterCrop(args.size),
                 transforms.ToTensor(),
                 normalize,
@@ -70,7 +70,7 @@ def main():
             raise ValueError('"vgenome" string not in dir_data')
         dataset = datasets.VisualGenomeImages(args.data_split, dict(dir=args.dir_data),
             transform=transforms.Compose([
-                transforms.Scale(args.size),
+                transforms.Resize(args.size),
                 transforms.CenterCrop(args.size),
                 transforms.ToTensor(),
                 normalize,
@@ -93,8 +93,11 @@ def extract(data_loader, model, path_file, mode):
     hdf5_file = h5py.File(path_hdf5, 'w')
 
     # estimate output shapes
-    output = model(Variable(torch.ones(1, 3, args.size, args.size),
-                            volatile=True))
+
+
+    #output = model(Variable(torch.ones(1, 3, args.size, args.size), volatile=True))
+    with torch.no_grad():
+        output = model(Variable(torch.ones(1, 3, args.size, args.size)))
 
     nb_images = len(data_loader.dataset)
     if mode == 'both' or mode == 'att':
@@ -107,7 +110,7 @@ def extract(data_loader, model, path_file, mode):
         print('Warning: shape_noatt={}'.format(shape_noatt))
         hdf5_noatt = hdf5_file.create_dataset('noatt', shape_noatt,
                                               dtype='f')#, compression='gzip')
-
+    model.cuda()
     model.eval()
 
     batch_time = AvgMeter()
@@ -117,7 +120,9 @@ def extract(data_loader, model, path_file, mode):
 
     idx = 0
     for i, input in enumerate(data_loader):
-        input_var = Variable(input['visual'], volatile=True)
+        #input_var = Variable(input['visual'], volatile=True)
+        with torch.no_grad():
+            input_var = Variable(input['visual'])
         output_att = model(input_var)
 
         nb_regions = output_att.size(2) * output_att.size(3)
